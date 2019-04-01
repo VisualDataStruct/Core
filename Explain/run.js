@@ -49,7 +49,13 @@ export default class Run {
         }
         return this.commentList;
     }
+    clear() {
+        this.pause();
+        Storage.render.render();
+        Storage.render.render();
+    }
     stop() {
+        Storage.animation.clearAnimation();
         this.playStatus = PlayStatus.Stop;
         this.jumpTo(0);
     }
@@ -64,6 +70,7 @@ export default class Run {
         }, second * 1500);
     }
     pause() {
+        Storage.animation.clearAnimation();
         this.playStatus = PlayStatus.Pause;
     }
     jumpTo(step) {
@@ -79,11 +86,13 @@ export default class Run {
         this.render();
     }
     preStep() {
+        Storage.animation.clearAnimation();
         this.doPreStep();
         Bus.emit('changeComment', this.operateList.opList[Math.max(0, this.step - 1)].commentId);
         this.render();
     }
     nxtStep() {
+        Storage.animation.clearAnimation();
         this.doNxtStep();
         Bus.emit('changeComment', this.operateList.opList[Math.max(0, this.step - 1)].commentId);
         this.render();

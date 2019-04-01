@@ -1,7 +1,7 @@
 import { Blocks } from './const';
 export default class Helper {
     static getIndend(n) {
-        return (new Array(n + 1)).join('  ');
+        return (new Array(n + 1)).join('        ');
     }
     /**
      * 是否是质数
