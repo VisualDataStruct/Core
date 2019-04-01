@@ -26,7 +26,7 @@ export default class Run {
         for (const key in varList) {
             if (varList.hasOwnProperty(key)) {
                 const value = varList[key];
-                this.varSet[key] = value;
+                this.varSet['var'][key] = value;
             }
         }
     }
