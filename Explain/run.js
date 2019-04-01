@@ -16,13 +16,22 @@ export default class Run {
         this.blockJson = json;
         this.operateList = new OperateList();
         this.commentList = null;
-    }
-    compile() {
         this.blockly = JSON.parse(this.blockJson);
         this.varSet = Complie.getVar({
             var: this.blockly._var,
             sp_var: this.blockly._sp_var,
         });
+    }
+    setInitVar(varList) {
+        for (const key in varList) {
+            if (varList.hasOwnProperty(key)) {
+                const value = varList[key];
+                this.varSet[key] = value;
+            }
+        }
+        console.log(this.varSet);
+    }
+    compile() {
         Complie.explain(this.operateList, this.blockly.code[0], this.varSet);
         Storage.animation.clearAnimation();
         this.allStep = this.operateList.opList.length;
@@ -42,9 +51,7 @@ export default class Run {
     }
     stop() {
         this.playStatus = PlayStatus.Stop;
-        setTimeout(() => {
-            this.jumpTo(0);
-        }, Storage.animation.getPlaySecond() * 1500);
+        this.jumpTo(0);
     }
     start() {
         const second = Storage.animation.getPlaySecond();
@@ -60,6 +67,8 @@ export default class Run {
         this.playStatus = PlayStatus.Pause;
     }
     jumpTo(step) {
+        this.pause();
+        Storage.animation.clearAnimation();
         while (step > this.step) {
             this.doNxtStep();
         }

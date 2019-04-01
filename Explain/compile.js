@@ -66,12 +66,14 @@ export class Complie {
         let node;
         let baseList;
         let change;
+        let length;
+        let conditionNumber;
         if (code === undefined) {
             return Blocks.ERROR;
         }
         switch (Helper.complie(code.block)) {
             case Blocks.IF:
-                const conditionNumber = code.condition_number || 0;
+                conditionNumber = code.condition_number || 0;
                 for (let i = 0; i < conditionNumber; ++i) {
                     if (typeof code.conditions[i][0] === 'boolean') {
                         if (code.conditions[i][0] === true) {
@@ -81,7 +83,7 @@ export class Complie {
                         }
                     }
                     else {
-                        if (Boolean(this.explain(opList, code.conditions[i][0], varList))) {
+                        if (this.explain(opList, code.conditions[i][0], varList)) {
                             opList.insert(new Operate(OperBlocks.IF, code.comment_id + String(i), []));
                             this.explain(opList, code.conditions[i][1], varList);
                             break;
@@ -155,6 +157,7 @@ export class Complie {
                 break;
             case Blocks.LOOP_WHILE:
                 repeatTime = 0;
+                // eslint-disable-next-line
                 while (true) {
                     ++repeatTime;
                     if (typeof code.condition === 'boolean') {
@@ -196,6 +199,7 @@ export class Complie {
                 break;
             case Blocks.LOOP_UNTIL:
                 repeatTime = 0;
+                // eslint-disable-next-line
                 while (true) {
                     ++repeatTime;
                     if (typeof code.condition === 'boolean') {

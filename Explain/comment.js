@@ -18,13 +18,14 @@ export default class Comment {
         let midComment;
         let otherComment;
         let count;
+        let conditionNumber;
         if (code === undefined) {
             return Blocks.ERROR;
         }
         subComment = Helper.getIndend(indend);
         switch (Helper.complie(code.block)) {
             case Blocks.IF:
-                const conditionNumber = code.condition_number || 0;
+                conditionNumber = code.condition_number || 0;
                 for (let i = 0; i < conditionNumber; ++i) {
                     if (i === conditionNumber - 1 && typeof code.conditions[i][0] === 'boolean') {
                         subComment += '否则';
@@ -454,6 +455,7 @@ export default class Comment {
                     default:
                         return Blocks.ERROR;
                 }
+                break;
             case Blocks.TEXT_GET_SUBSTRING:
                 midComment = code.comment;
                 otherComment = this.getComment(code.text, []) || '';
@@ -914,15 +916,6 @@ export default class Comment {
                     comment: subComment,
                 });
                 break;
-            case Blocks.BASELIST_GET_NODE_NUMBER:
-                leftComment = this.getComment(code.list, []);
-                midComment = code.comment;
-                if (midComment === '') {
-                    return subComment + leftComment + '的结点数量';
-                }
-                else {
-                    return subComment + leftComment + midComment;
-                }
             default:
                 return Blocks.ERROR;
         }
