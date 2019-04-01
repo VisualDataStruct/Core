@@ -29,7 +29,6 @@ export default class Run {
                 this.varSet[key] = value;
             }
         }
-        console.log(this.varSet);
     }
     compile() {
         Complie.explain(this.operateList, this.blockly.code[0], this.varSet);
